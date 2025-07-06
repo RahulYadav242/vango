@@ -9,12 +9,13 @@ dotenv.config();
 const app = express();
 
 // ✅ Setup CORS first
-app.use(
-  cors({
-    origin: "https://vango-td7i.onrender.com", // ✅ frontend Render domain
-    credentials: true,
-  })
-);
+
+
+app.use(cors({
+  origin: ["http://localhost:5173", "https://vango-td7i.onrender.com"],
+  credentials: true,
+}));
+
 
 
 // ✅ Then parse cookies and JSON
