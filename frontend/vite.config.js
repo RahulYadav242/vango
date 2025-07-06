@@ -6,6 +6,6 @@ export default defineConfig({
   preview: {
     port: process.env.PORT || 4173,
     host: true,
-    allowedHosts: ["vango-td7i.onrender.com"], // ✅ ADD YOUR RENDER DOMAIN HERE
+    allowedHosts: ["vango-td7i.onrender.com"], // ✅ This is your Render frontend domain
   },
 });
