@@ -33,6 +33,16 @@ router.get("/vans/:id", async (req, res) => {
     }
 });
 
+router.post("/vans", async (req, res) => {
+    try {
+        const van = new Van(req.body);
+        await van.save();
+        res.status(201).json(van);
+    } catch (err) {
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 
 
 export default router
