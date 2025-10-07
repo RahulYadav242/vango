@@ -18,7 +18,7 @@ export const useAuthStore = create((set, get) => ({
   checkAuth: async () => {
   try {
     const res = await axiosInstance.get("/auth/check");
-    set({ authUser: res.data });
+    set({ authUser: res?.data });
     // get().connectSocket();
   } catch (error) {
     console.log("Error in checkAuth:", error); // ✅
@@ -33,11 +33,12 @@ export const useAuthStore = create((set, get) => ({
     try {
       console.log('hello')
       const res = await axiosInstance.post("/auth/signup", data);
-      set({ authUser: res.data });
+      set({ authUser: res?.data });
       toast.success("Account created successfully");
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log("Signup error:", error);
+      toast.error(error?.response?.data?.message || "Signup failed");
     } finally {
       set({ isSigningUp: false });
     }
@@ -52,7 +53,8 @@ export const useAuthStore = create((set, get) => ({
 
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log("Login error:", error);
+      toast.error(error?.response?.data?.message || "Login failed");
     } finally {
       set({ isLoggingIn: false });
     }
@@ -65,7 +67,8 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Logged out successfully");
       get().disconnectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log("Logout error:", error);
+      toast.error(error?.response?.data?.message || "Logout failed");
     }
   },
    updateProfile : async (data) => {
@@ -73,16 +76,16 @@ export const useAuthStore = create((set, get) => ({
   set({ isUpdatingProfile: true });
   try {
     const res = await axiosInstance.put("/auth/update-profile", data);
-    set({ authUser: res.data });
+    set({ authUser: res?.data });
     toast.success("Profile updated successfully");
-    console.log("✅ Server responded:", res.data);
+    console.log("✅ Server responded:", res?.data);
   } catch (error) {
     console.log("❌ Error in updateProfile:", error?.response?.data || error.message);
     toast.error(error?.response?.data?.message || "Update failed");
   } finally {
     set({ isUpdatingProfile: false });
   }
-}
+},
 
 
   // updateProfile: async (data) => {
@@ -98,4 +101,14 @@ export const useAuthStore = create((set, get) => ({
   //     set({ isUpdatingProfile: false });
   //   }
   // }
+
+  connectSocket: () => {
+    // Socket connection logic can be added here if needed
+    console.log("Socket connection requested");
+  },
+
+  disconnectSocket: () => {
+    // Socket disconnection logic can be added here if needed
+    console.log("Socket disconnection requested");
+  }
 }));
